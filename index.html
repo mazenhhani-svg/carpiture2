@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>استلام أصناف الأوردر</title>
-  <!-- مكتبة Telegram WebApp لتفاعل سلس مع البوت -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700&display=swap');
@@ -27,7 +26,6 @@
       border-top: 5px solid #8c6239;
     }
 
-    /* هيدر يحتوي على اللوجو والعنوان بتوسيط متناسق */
     .header-table {
       width: 100%;
       border-collapse: collapse;
@@ -43,35 +41,12 @@
       vertical-align: middle;
     }
 
-    .header-right {
-      width: 25%;
-      text-align: right;
-    }
+    .header-right { width: 25%; text-align: right; }
+    .logo-img { max-height: 85px; width: auto; display: inline-block; }
+    .header-center { width: 50%; text-align: center; }
+    .header-center h2 { margin: 0; color: #8c6239; font-size: 22px; font-weight: 700; }
+    .header-left { width: 25%; }
 
-    .logo-img {
-      max-height: 85px;
-      width: auto;
-      display: inline-block;
-    }
-
-    .header-center {
-      width: 50%;
-      text-align: center;
-    }
-
-    .header-center h2 {
-      margin: 0;
-      color: #8c6239;
-      font-size: 22px;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .header-left {
-      width: 25%;
-    }
-
-    /* كارت تفاصيل الأوردر المباشرة */
     .info-box {
       background-color: #faf8f5;
       border: 1px dashed #d1c2b2;
@@ -111,9 +86,7 @@
       font-family: inherit;
       font-size: 13px;
     }
-    input[type="date"]:focus { border-color: #8c6239; outline: none; }
 
-    /* جدول الأصناف والتحديد */
     .receive-table {
       width: 100%;
       border-collapse: collapse;
@@ -138,11 +111,8 @@
       vertical-align: middle;
     }
 
-    .receive-table tr:nth-child(even) {
-      background-color: #faf8f5;
-    }
+    .receive-table tr:nth-child(even) { background-color: #faf8f5; }
 
-    /* مكبّر مربعات الاختيار لتسهيل الضغط بالموبايل */
     .item-checkbox {
       width: 18px;
       height: 18px;
@@ -161,20 +131,17 @@
       font-size: 15px;
       cursor: pointer;
       margin-top: 20px;
-      transition: 0.2s;
     }
-    .btn-submit:hover { background-color: #704d2b; }
   </style>
 </head>
 <body>
 
 <div class="form-card">
-  <!-- هيدر يحتوي على اللوجو المكبّر والعنوان -->
   <table class="header-table">
     <tr>
       <td class="header-right">
-        <!-- ضع كود اللوجو الخاص بك (Base64) هنا -->
-        <img class="logo-img" src="YOUR_BASE64_IMAGE_STRING_HERE" alt="Carpiture Logo" />
+        <!-- ضع كود Base64 للوجو هنا -->
+        <img class="logo-img" src="data:image/jpeg;base64,YOUR_BASE64_STRING" alt="Logo" />
       </td>
       <td class="header-center">
         <h2>استلام أوردر</h2>
@@ -183,7 +150,7 @@
     </tr>
   </table>
 
-  <!-- ملخص بيانات الأوردر -->
+  <!-- ملخص البيانات -->
   <div class="info-box">
     <div class="info-row">
       <span><span class="info-label">رقم الأوردر:</span> <span class="info-val" id="disp_order_id">{{ $json["رقم الأوردر"] }}</span></span>
@@ -196,13 +163,11 @@
   </div>
 
   <form id="receiveForm">
-    <!-- حقل اختيار تاريخ الصرف / الاستلام -->
     <div class="form-group">
       <label>تاريخ الاستلام / الصرف *</label>
       <input type="date" id="discharge_date" required>
     </div>
 
-    <!-- جدول اختيار الأصناف المستلمة -->
     <div class="section-title">الأصناف المتاحة للاستلام</div>
     
     <table class="receive-table">
@@ -216,8 +181,8 @@
         </tr>
       </thead>
       <tbody>
-        <!-- يتم زرع صفوف الأصناف التي تحتوي على الـ Checkbox من عقدة الـ Code -->
-        {{ $json.tableRows }}
+        <!-- مكان زرع صفوف الجدول المجهزة من عقدة Code -->
+        {{{ $json.tableRows }}}
       </tbody>
     </table>
 
@@ -229,23 +194,18 @@
   const tg = window.Telegram?.WebApp;
   if (tg) tg.expand();
 
-  // ضبط تاريخ اليوم تلقائياً بحقل تاريخ الاستلام
   document.getElementById('discharge_date').valueAsDate = new Date();
 
-  // معالجة إرسال استمارة الاستلام
   document.getElementById('receiveForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const submitBtn = document.getElementById('submitBtn');
-    
-    // 1. جمع الأصناف التي تم تعليمها بـ Checkbox فقط
     const selectedBoxes = document.querySelectorAll('.item-checkbox:checked');
-    
     if (selectedBoxes.length === 0) {
       alert('يرجى تحديد صنف واحد على الأقل لاستلامه!');
       return;
     }
 
+    const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled = true;
     submitBtn.innerText = 'جاري تسجيل الاستلام...';
 
@@ -253,20 +213,16 @@
     selectedBoxes.forEach(box => {
       try {
         selectedItemsPayload.push(JSON.parse(box.value));
-      } catch (err) {
-        console.error("Error parsing item data:", err);
-      }
+      } catch (err) {}
     });
 
-    // 2. إعداد كائن البيانات المرسل للـ Webhook
     const payload = {
       order_id: document.getElementById('disp_order_id').innerText.trim(),
       discharge_date: document.getElementById('discharge_date').value,
       received_items: selectedItemsPayload
     };
 
-    // رابط الـ Webhook الخاص باستلام وتحديث Google Sheets (Webhook 2)
-    const receiveWebhookUrl = 'https://saas123456.app.n8n.cloud/webhook-test/https://saas123456.app.n8n.cloud/webhook-test/74055dc8-7bdd-4839-8ef9-200da40e897c';
+    const receiveWebhookUrl = 'https://saas123456.app.n8n.cloud/webhook-test/74055dc8-7bdd-4839-8ef9-200da40e897c';
 
     try {
       const response = await fetch(receiveWebhookUrl, {
@@ -276,13 +232,13 @@
       });
 
       if (response.ok) {
-        alert('تم تسجيل استلام الأصناف المحددة بنجاح!');
+        alert('تم تسجيل استلام الأصناف بنجاح!');
         if (tg) tg.close();
       } else {
-        alert('حدث خطأ أثناء إرسال بيانات الاستلام.');
+        alert('حدث خطأ أثناء إرسال البيانات.');
       }
     } catch (err) {
-      alert('تعذر الاتصال بسيرفر n8n.');
+      alert('تعذر الاتصال بالسيرفر.');
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerText = 'تأكيد استلام الأصناف';
