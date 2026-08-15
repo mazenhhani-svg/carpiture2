@@ -186,12 +186,12 @@
   <!-- ملخص بيانات الأوردر -->
   <div class="info-box">
     <div class="info-row">
-      <span><span class="info-label">رقم الأوردر:</span> <span class="info-val" id="disp_order_id">{{ $json["رقم الأوردر"] || "-" }}</span></span>
-      <span><span class="info-label">تاريخ التسليم:</span> <span class="info-val">{{ $json["تاريخ التسليم"] || "-" }}</span></span>
+      <span><span class="info-label">رقم الأوردر:</span> <span class="info-val" id="disp_order_id">{{ $json["رقم الأوردر"] }}</span></span>
+      <span><span class="info-label">تاريخ التسليم:</span> <span class="info-val">{{ $json["تاريخ التسليم"] }}</span></span>
     </div>
     <div class="info-row">
-      <span><span class="info-label">اسم العميل:</span> <span class="info-val">{{ $json["اسم العميل"] || "-" }}</span></span>
-      <span><span class="info-label">المورد:</span> <span class="info-val">{{ $json["المورد"] || "-" }}</span></span>
+      <span><span class="info-label">اسم العميل:</span> <span class="info-val">{{ $json["اسم العميل"] }}</span></span>
+      <span><span class="info-label">المورد:</span> <span class="info-val">{{ $json["المورد"] }}</span></span>
     </div>
   </div>
 
@@ -217,7 +217,7 @@
       </thead>
       <tbody>
         <!-- يتم زرع صفوف الأصناف التي تحتوي على الـ Checkbox من عقدة الـ Code -->
-        {{{ $json.tableRows }}}
+        {{ $json.tableRows }}
       </tbody>
     </table>
 
