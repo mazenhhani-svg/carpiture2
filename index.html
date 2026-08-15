@@ -66,7 +66,7 @@
   document.getElementById('disp_order_id').innerText = orderId || 'غير محدد';
 
   // 2. جلب البيانات من n8n بناءً على رقم الأوردر
-  const GET_ITEMS_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e897c';
+  const GET_ITEMS_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook-test/74055dc8-7bdd-4839-8ef9-200da40e897c';
 
   async function loadOrderItems() {
     if (!orderId) return;
@@ -90,7 +90,7 @@
     if (selectedBoxes.length === 0) return alert('يرجى تحديد صنف واحد على الأقل!');
 
     const selectedItems = Array.from(selectedBoxes).map(cb => JSON.parse(cb.value));
-    const RECEIVE_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e897c';
+    const RECEIVE_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook-test/74055dc8-7bdd-4839-8ef9-200da40e897c';
 
     const response = await fetch(RECEIVE_WEBHOOK, {
       method: 'POST',
