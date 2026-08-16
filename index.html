@@ -174,7 +174,7 @@
   document.getElementById('disp_order_id').innerText = orderId || 'غير محدد';
 
   // 2. رابط الـ Webhook الأول للجلب (ضع رابط Production المباشر هنا)
-  const GET_ITEMS_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e897c';
+  const GET_ITEMS_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e898c';
 
   async function loadOrderItems() {
     if (!orderId) return;
@@ -213,7 +213,7 @@
     const dispatchItems = Array.from(dispatchBoxes).map(cb => JSON.parse(cb.value));
 
     // رابط الـ Webhook الثاني للتخزين (ضع رابط Production المباشر هنا)
-    const RECEIVE_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e897c';
+    const RECEIVE_WEBHOOK = 'https://saas123456.app.n8n.cloud/webhook/74055dc8-7bdd-4839-8ef9-200da40e899c';
 
     try {
       const response = await fetch(RECEIVE_WEBHOOK, {
